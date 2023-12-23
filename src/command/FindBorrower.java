@@ -14,7 +14,7 @@ public class FindBorrower implements Command{
     public void execute() {
         Library lib = Library.getInstance();
         Book targetBook = lib.books.get(bookID);
-        System.out.println("object.User: "+targetBook.getBorrowedBy().getUserName());
+        System.out.println("User: "+targetBook.getBorrowedBy().getUserName());
 
     }
 
