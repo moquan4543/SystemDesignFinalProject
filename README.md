@@ -1,8 +1,9 @@
+___ 
 # How to use
 src中是所有程式碼，基本上只需要它  
+類圖在UMLDiagram中  
 要確保sampleInput與Main在同層目錄，否則會讀不到  
-可參考類圖:scratch  
-使用工具: PlantUML  
+
 ___ 
 
 
@@ -20,3 +21,5 @@ ___
 2. No copy of a book may be both available and checked out at the same time.  
 3. A borrower may not have more than a pre-defined number of books checked out at one time.  
 
+___
+類圖使用工具: PlantUML  
