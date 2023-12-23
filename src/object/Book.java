@@ -1,3 +1,7 @@
+package object;
+
+import exception.BookCheckoutException;
+
 import java.util.Objects;
 
 public class Book {

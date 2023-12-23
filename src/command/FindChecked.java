@@ -1,3 +1,6 @@
+package command;
+import object.*;
+import controller.Library;
 import java.util.stream.Stream;
 
 public class FindChecked implements Command{

@@ -1,3 +1,8 @@
+package command;
+import controller.Library;
+import object.Book;
+import object.priority;
+
 public class FindBorrower implements Command{
     Integer bookID;
 
@@ -9,7 +14,7 @@ public class FindBorrower implements Command{
     public void execute() {
         Library lib = Library.getInstance();
         Book targetBook = lib.books.get(bookID);
-        System.out.println("User: "+targetBook.getBorrowedBy().getUserName());
+        System.out.println("object.User: "+targetBook.getBorrowedBy().getUserName());
 
     }
 

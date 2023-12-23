@@ -1,3 +1,9 @@
+package object;
+
+import command.Command;
+import exception.BookCheckoutException;
+import exception.PermissionDeniedException;
+
 public class User {
     String userName;
     priority userType;
@@ -27,7 +33,7 @@ public class User {
     public void setCmd(Command cmd) {
         this.cmd = cmd;
     }
-    public void invoke() throws BookCheckoutException,PermissionDeniedException{
+    public void invoke() throws BookCheckoutException, PermissionDeniedException {
         if(cmd.canExecute(this.userType)){
             cmd.execute();
         }else{

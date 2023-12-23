@@ -1,3 +1,9 @@
+package command;
+
+import exception.BookCheckoutException;
+import exception.ExceedLimitationException;
+import object.*;
+import controller.Library;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
@@ -7,7 +13,7 @@ public class Checkout implements Command{
     User borrower;
     BufferedReader br;
 
-    public Checkout(User borrower,BufferedReader br) {
+    public Checkout(User borrower, BufferedReader br) {
         this.borrower = borrower;
         this.br = br;
     }

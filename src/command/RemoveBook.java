@@ -1,3 +1,6 @@
+package command;
+import controller.Library;
+import object.priority;
 public class RemoveBook implements Command{
     private final int bookID;
     public RemoveBook(int id) {

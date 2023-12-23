@@ -1,9 +1,14 @@
+import controller.Library;
+import object.Book;
+import object.User;
+import object.priority;
+
 import java.io.*;
 
 
 /**
  * Consider a small library system with the following transactions:
- * 1. Check out a copy of book/ Return a copy of a book
+ * 1. Check out a copy of book/ command.Return a copy of a book
  * 2. Add a copy of a book to/ Remove a copy of a book from the library.
  * 3. Get the list of books by a particular author or in a particular subject area.
  * 4. Find out the list of books currently checked out by a particular borrower,
@@ -21,7 +26,7 @@ import java.io.*;
  *
  * */
 public class Main{
-    public static void Init(Library lib,BufferedReader br) throws IOException{
+    public static void Init(Library lib, BufferedReader br) throws IOException{
         int numberOfBook = Integer.parseInt(br.readLine());
         for(int i = 0; i < numberOfBook;++i){
             String[] strArray = br.readLine().split("\\s+");
