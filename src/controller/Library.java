@@ -50,8 +50,9 @@ public class Library {
                 invoker.invoke();
             }catch(PermissionDeniedException e){
                 System.out.println("Borrower can not add book");
-                return 0;
             }
+            return 0;
+
         } else if (strList.size() < 3) {
             System.out.println("Should give an argument");
         }
