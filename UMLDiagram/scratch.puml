@@ -1,0 +1,130 @@
+@startuml
+class Main{
+    +{static}Init(lib : Library, br : BufferedReader) : void
+    +{static}main()
+}
+note left of Main : 處理初始化\n創建Library\n進入主迴圈等待輸入\n調用Library的方法處理指令
+
+class Library{
+    +users : HashMap<String, User>
+    +books : LinkedHashMap<Integer, Book>
+    {static}-instance : Library
+
+    {method}<<Singleton>>
+    -Library()
+    {static}+getInstance() : Library
+    +processTransaction(cmd : String, br : BufferedReader) : int
+}
+note left of Library : 透過Map可利用鍵快速查找元素\nLinkedHashMap有可預知的迭代順序\n解決列出書要照ID排的問題
+note bottom of Library : processTransaction方法用來\n解析輸入的指令，根據使用者類型\n和調用的指令進行權限控制並透過\n設計好的命令模式調用執行指令
+note right of Library : 關於processTransaction函數\nAnalyze a single command,\nwhere the supported command format is\n\n[invoker] command [...parameters].\n\nTherefore, the standard processing can be applied uniformly.\nIf the invoker has the permission to execute the command,\nthe command execution is handled by the invoking class.\n\n@param cmd : a single line instruction which the type is String\n@return  0 if run successfully, -1 if parsing failed.
+
+
+enum Priority{
+    Borrower,Staff
+}
+class User<<Invoker>>{
+    -userName : String
+    -userType : Priority
+    -predefinedBorrowBookNumber : Integer
+    -cmd : Command
+    +getUserName() : String
+    +getPreDefinedBorrowBookNumber() : Integer
+    +setPreDefinedBorrowBookNumber() : void
+    +setCommand(cmd : Command) : void
+    +invoke() : void
+}
+
+
+class Book{
+    -bookID : Integer
+    -bookAuthor : String
+    -bookSubject : String
+    -borrowed : boolean
+    -borrowedBy : User
+
+    +getBookID() : Integer
+    +getAuthor() : String
+    +getSubject() : String
+    +isBorrowed() : boolean
+    +getBorrowedBy : User
+    +doBorrowed() : void
+    +doReturn() : void
+    +equals(o : Object) : boolean
+    +hashCode() : int
+}
+
+
+interface Command<< 指令接口 >>{
+    {abstract} execute() : void
+    canExecute(p : priority) : boolean
+}
+note top of Command : 指令能不能執行除了權限之外\n也有其他情況會導致無法執行\n像是借書借超過可以借的數量\n所以子類可以重寫canExecute方法
+
+class addBook implements Command{
+    br : BufferedReader
+
+    {method}<<Override>>
+    +execute() : void
+    +canExecute(p : priority) : boolean
+}
+note right of addBook : 執行addBook指令需\n繼續讀取要新增的書\n故需BufferedReader\n其它實現類有br的同理
+
+class removeBook implements Command{
+    -bookID : int
+    {method}<<Override>>
+    +execute() : void
+    +canExecute(p : priority) : boolean
+}
+
+class checkout implements Command{
+    borrower : User
+    br : BufferedReader
+    {method}<<Override>>
+    +execute() : void
+    +canExecute(p : priority) : boolean
+}
+
+class return implements Command{
+    returnedBookID : Integer
+    {method}<<Override>>
+    +execute() : void
+    +canExecute(p : priority) : boolean
+}
+
+class listAuthor implements Command{
+    author : String
+    {method}<<Override>>
+    +execute() : void
+    +canExecute(p : priority) : void
+}
+
+class listSubject implements Command{
+    subject : String
+    {method}<<Override>>
+    +execute() : void
+    +canExecute(p : priority) : void
+}
+
+class findChecked implements Command{
+    invoker : User
+    user : User
+    {method}<<Override>>
+    +execute() : void
+    +canExecute(p : priority) : boolean
+}
+
+class findBorrower implements Command{
+    bookID : Integer
+    {method}<<Override>>
+    +execute() : void
+    +canExecute(p : priority) : boolean
+}
+
+Main ..> Library
+Library -- Command
+Library *--- Book
+Library *--- User
+User *- Priority
+User ..> Command
+@enduml
