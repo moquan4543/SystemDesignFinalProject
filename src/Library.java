@@ -1,11 +1,10 @@
 import java.io.BufferedReader;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class Library {
     public Map<String, User> users = new HashMap<>();
     public Map<Integer,Book> books = new LinkedHashMap<>();
-    private static Library instance = new Library();
+    private static final Library instance = new Library();
 
     private Library(){}
     public static Library getInstance(){
@@ -41,7 +40,6 @@ public class Library {
                 invoker.invoke();
             }catch(PermissionDeniedException e){
                 System.out.println("Borrower can not add book");
-            }finally{
                 return 0;
             }
         } else if (strList.size() < 3) {

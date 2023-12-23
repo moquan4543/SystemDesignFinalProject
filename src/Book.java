@@ -1,9 +1,9 @@
 import java.util.Objects;
 
 public class Book {
-    private Integer bookID;
-    private String bookAuthor;
-    private String bookSubject;
+    private final Integer bookID;
+    private final String bookAuthor;
+    private final String bookSubject;
     private boolean borrowed = false;
     private User borrowedBy = null;
 

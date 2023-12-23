@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,13 +16,11 @@ public class Checkout implements Command{
     public void execute() {
         Library lib = Library.getInstance();
         try{
-            List<Integer> borrowedBooks = Arrays.stream(br.readLine().split("\\s+")).map(s -> Integer.parseInt(s)).toList();
+            List<Integer> borrowedBooks = Arrays.stream(br.readLine().split("\\s+")).map(Integer::parseInt).toList();
             if(borrowedBooks.size() > borrower.getPredefinedBorrowBookNumber()){
                 throw new ExceedLimitationException();
             }
-            borrowedBooks.forEach(id -> {
-                lib.books.get(id).doBorrow(borrower);
-            });
+            borrowedBooks.forEach(id -> lib.books.get(id).doBorrow(borrower));
         }catch(BookCheckoutException e){
             throw e;
         }

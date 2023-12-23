@@ -1,5 +1,5 @@
 public class RemoveBook implements Command{
-    private int bookID;
+    private final int bookID;
     public RemoveBook(int id) {
         this.bookID = id;
     }
