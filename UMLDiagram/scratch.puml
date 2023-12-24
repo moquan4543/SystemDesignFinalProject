@@ -96,14 +96,14 @@ class listAuthor implements Command{
     author : String
     {method}<<Override>>
     +execute() : void
-    +canExecute(p : priority) : void
+    +canExecute(p : priority) : boolean
 }
 
 class listSubject implements Command{
     subject : String
     {method}<<Override>>
     +execute() : void
-    +canExecute(p : priority) : void
+    +canExecute(p : priority) : boolean
 }
 
 class findChecked implements Command{
