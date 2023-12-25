@@ -16,19 +16,21 @@ public class Book {
         this.bookAuthor = bookAuthor;
         this.bookSubject = bookSubject;
     }
+
     public void doBorrow(User user){
         if(this.isBorrowed()){
-            throw new BookCheckoutException();
+            throw new BookCheckoutException("Can not check out since the book is checked out");
         }
         this.borrowed = true;
         this.borrowedBy = user;
     }
+
     public void doReturn(){
         if(this.isBorrowed()){
             this.borrowed = false;
             this.borrowedBy = null;
         }else{
-            throw new BookCheckoutException();
+            throw new BookCheckoutException("Can not return since the book isn't checked out ");
         }
     }
 
@@ -51,6 +53,7 @@ public class Book {
     public boolean isBorrowed() {
         return borrowed;
     }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
