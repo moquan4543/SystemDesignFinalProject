@@ -1,22 +1,21 @@
 package command;
-
-import exception.BookCheckoutException;
 import controller.Library;
+import exception.PermissionDeniedException;
+import object.User;
 import object.priority;
+
+@SuppressWarnings("all")
 public class Return implements Command{
-    Integer returnedBookID;
 
-    public Return(Integer returnedBookID) {
-        this.returnedBookID = returnedBookID;
-    }
+    public Return() {}
 
     @Override
-    public void execute() throws BookCheckoutException {
+    public void execute(User invoker, String arg) throws RuntimeException {
+        if(!invoker.getUserType().equals(priority.Staff)){
+            throw new PermissionDeniedException("Borrower can not add book");
+        }
         Library lib = Library.getInstance();
+        Integer returnedBookID = Integer.parseInt(arg);
         lib.books.get(returnedBookID).doReturn();
-    }
-    @Override
-    public boolean canExecute(priority p) {
-        return p.equals(priority.Staff);
     }
 }

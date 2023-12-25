@@ -1,42 +1,32 @@
 package command;
 
-import exception.BookCheckoutException;
 import exception.ExceedLimitationException;
+import exception.PermissionDeniedException;
 import object.*;
 import controller.Library;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
+@SuppressWarnings("all")
 public class Checkout implements Command{
-    User borrower;
-    BufferedReader br;
-
-    public Checkout(User borrower, BufferedReader br) {
-        this.borrower = borrower;
-        this.br = br;
-    }
+    public Checkout() {}
 
     @Override
-    public void execute() {
+    public void execute(User invoker, String arg) throws RuntimeException {
         Library lib = Library.getInstance();
         try{
-            List<Integer> borrowedBooks = Arrays.stream(br.readLine().split("\\s+")).map(Integer::parseInt).toList();
+            if(!invoker.getUserType().equals(priority.Staff)){
+                throw new PermissionDeniedException("Borrower can not check out the books ");
+            }
+            User borrower = lib.users.get(arg);
+            List<Integer> borrowedBooks = Arrays.stream(lib.br.readLine().split("\\s+")).map(Integer::parseInt).toList();
             if(borrowedBooks.size() > borrower.getPredefinedBorrowBookNumber()){
-                throw new ExceedLimitationException();
+                throw new ExceedLimitationException("Can not check out since the number of books exceed the limitation of user can check-out");
             }
             borrowedBooks.forEach(id -> lib.books.get(id).doBorrow(borrower));
-        }catch(BookCheckoutException e){
-            throw e;
         }
         catch(IOException e){
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public boolean canExecute(priority p) {
-        return p.equals(priority.Staff);
     }
 }

@@ -1,6 +1,5 @@
 package command;
-import object.priority;
+import object.User;
 public interface Command {
-    void execute();
-    boolean canExecute(priority p);
+    void execute(User invoker, String arg);
 }
