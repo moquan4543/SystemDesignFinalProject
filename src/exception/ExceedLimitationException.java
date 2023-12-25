@@ -1,5 +1,7 @@
 package exception;
 
 public class ExceedLimitationException extends RuntimeException{
-    public ExceedLimitationException() {}
+    public ExceedLimitationException(String msg) {
+        super(msg);
+    }
 }
