@@ -1,13 +1,11 @@
 package object;
-
 import command.Command;
-import exception.BookCheckoutException;
-import exception.PermissionDeniedException;
+import java.io.BufferedReader;
 
 public class User {
-    String userName;
-    priority userType;
-    Integer predefinedBorrowBookNumber;
+    private final String userName;
+    private final priority userType;
+    private Integer predefinedBorrowBookNumber;
     Command cmd;
 
     public User(priority userType, String userName){
@@ -15,17 +13,25 @@ public class User {
         this.userName = userName;
         this.predefinedBorrowBookNumber = Integer.MAX_VALUE;
     }
+
     public User(priority userType, String userName, Integer predefinedBorrowBookNumber){
         this.userType = userType;
         this.userName = userName;
         this.predefinedBorrowBookNumber = predefinedBorrowBookNumber;
     }
+
     public String getUserName() {
         return userName;
     }
+
+    public priority getUserType(){
+        return userType;
+    }
+
     public Integer getPredefinedBorrowBookNumber() {
         return predefinedBorrowBookNumber;
     }
+
     public void setPredefinedBorrowBookNumber(Integer predefinedBorrowBookNumber) {
         this.predefinedBorrowBookNumber = predefinedBorrowBookNumber;
     }
@@ -33,11 +39,12 @@ public class User {
     public void setCmd(Command cmd) {
         this.cmd = cmd;
     }
-    public void invoke() throws BookCheckoutException, PermissionDeniedException {
-        if(cmd.canExecute(this.userType)){
-            cmd.execute();
-        }else{
-            throw new PermissionDeniedException();
+
+    public void invoke(String arg){
+        try{
+            cmd.execute(this,arg);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
 }
