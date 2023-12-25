@@ -1,6 +1,7 @@
 package controller;
 import command.*;
 
+@SuppressWarnings("all")
 public class CommandFactory{
     public static Command createCommand(String cmdString) throws IllegalArgumentException{
         try{
