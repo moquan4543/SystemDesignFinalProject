@@ -1,21 +1,15 @@
 package controller;
-
 import command.*;
-import exception.BookCheckoutException;
-import exception.ExceedLimitationException;
-import exception.PermissionDeniedException;
 import object.Book;
 import object.User;
-
 import java.io.BufferedReader;
 import java.util.*;
-
 
 public class Library {
     public Map<String, User> users = new HashMap<>();
     public Map<Integer, Book> books = new LinkedHashMap<>();
+    public BufferedReader br;
     private static final Library instance = new Library();
-
     private Library(){}
     public static Library getInstance(){
         return instance;
@@ -30,87 +24,32 @@ public class Library {
      * If the invoker has the permission to execute the command,
      * the command execution is handled by the invoking class.
      *
-     * @param   cmd   a single line instruction which the type is String
+     * @param   cmdStr   a single line instruction which the type is String
      * @return  0 if run successfully, -1 if parsing failed.
      **/
-    public int processTransaction(String cmd, BufferedReader br){
-        List<String> strList = Arrays.stream(cmd.split("\\s+")).toList();
-        User invoker = users.get(strList.get(0));
-        String instruction = strList.get(1);
-        if(invoker.equals(null)){
-            System.out.println("object.User not found");
-            return -1;
+    @SuppressWarnings("all")
+    public int processTransaction(String cmdStr, BufferedReader br){
+        //輸入的單行指令由空格隔開(可以是多個)
+        //透過stream的方法轉成List，構造成LinkedList
+        //透過LinkedList提供的方法模擬隊列，避免索引寫死如果沒有操作數會越界的問題
+        LinkedList<String> strQueue = new LinkedList<>(Arrays.stream(cmdStr.split("\\s+")).toList());
+        User invoker = users.get(strQueue.removeFirst());
+        String instruction = strQueue.removeFirst();
+        String arg;
+        if(strQueue.isEmpty()){
+            //前面已remove兩次，如果是空的代表後面沒有參數了
+            arg = "";
+        }else{
+            arg = strQueue.removeFirst();
         }
-
-
-        //解析指令
-        if(instruction.matches("(?i)addBook")){
-            try{
-                invoker.setCmd(new AddBook(br));
-                invoker.invoke();
-            }catch(PermissionDeniedException e){
-                System.out.println("Borrower can not add book");
-            }
-            return 0;
-
-        } else if (strList.size() < 3) {
-            System.out.println("Should give an argument");
-        }
-        //除了addBook外的指令都需引數
-        //所以可以寫在一個if-statement
-        String arg = strList.get(2);
-        if(instruction.matches("(?i)removeBook")){
-
-            try{
-                invoker.setCmd(new RemoveBook(Integer.parseInt(arg)));
-                invoker.invoke();
-            }catch(PermissionDeniedException e){
-                System.out.println("Borrower can not remove book");
-            }
-
-        }else if(instruction.matches("(?i)checkout")){
-
-            try{
-                invoker.setCmd(new Checkout(users.get(arg),br));
-                invoker.invoke();
-            }catch(PermissionDeniedException e){
-                System.out.println("Borrower can not check out the books");
-            }catch(BookCheckoutException e){
-                System.out.println("Can not check out since the book is checked out");
-            }catch(ExceedLimitationException e){
-                System.out.println("Can not check out since the number of books exceed the limitation of user can check-out");
-            }
-
-        }else if(instruction.matches("(?i)return")){
-
-            try{
-                invoker.setCmd(new Return(Integer.parseInt(arg)));
-                invoker.invoke();
-            }catch(PermissionDeniedException e){
-                System.out.println("Borrower can not return book");
-            }catch(BookCheckoutException e){
-                System.out.println("Can not return since the book isn't checked out");
-            }
-
-        }else if(instruction.matches("(?i)listAuthor")){
-            invoker.setCmd(new ListAuthor(arg));
-            invoker.invoke();
-        }else if(instruction.matches("(?i)listSubject")){
-            invoker.setCmd(new ListSubject(arg));
-            invoker.invoke();
-        }else if(instruction.matches("(?i)findChecked")){
-
-            try{
-                invoker.setCmd(new FindChecked(invoker, users.get(arg)));
-                invoker.invoke();
-            }catch (PermissionDeniedException e){
-                System.out.println("Borrower can not find books checked out by other users");
-            }
-
-        }else if(instruction.matches("(?i)findBorrower")){
-            invoker.setCmd(new FindBorrower(Integer.parseInt(arg)));
-            invoker.invoke();
-        }
+        //如果指令需要用到BufferedReader，就直接用lib的
+        this.br = br;
+        //仔細觀察可以發現除了addBook外的指令都需引數
+        //但為了符合開閉原則，即使是addBook仍然傳遞引數(空字串)
+        //呼叫CommandFactory構造指令類
+        Command cmd = CommandFactory.createCommand(instruction);
+        invoker.setCmd(cmd);
+        invoker.invoke(arg);
         return 0;
     }
 }
