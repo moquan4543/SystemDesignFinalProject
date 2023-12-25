@@ -1,7 +1,7 @@
 package object;
 import command.Command;
-import java.io.BufferedReader;
 
+@SuppressWarnings("all")
 public class User {
     private final String userName;
     private final priority userType;
