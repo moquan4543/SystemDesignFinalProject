@@ -7,7 +7,7 @@ public class CommandFactory{
         try{
             //把cmdString首字母改成大寫
             cmdString = "command." + cmdString.substring(0,1).toUpperCase() + cmdString.substring(1);
-            //因為Java有Reflection可以用，所以我就不用Factory Method寫了
+            //因為Java有Reflection可以用，我就不用Factory Method寫了
             //用Reflection獲取字節碼Class類
             Class<?> cmdClass = Class.forName(cmdString);
             //用Reflection構造類的實例
