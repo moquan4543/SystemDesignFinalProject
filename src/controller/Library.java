@@ -24,7 +24,7 @@ public class Library {
      * If the invoker has the permission to execute the command,
      * the command execution is handled by the invoking class.
      *
-     * @param   cmdStr   a single line instruction which the type is String
+     * @param   cmdStr   a single line instruction which type is String
      * @return  0 if run successfully, -1 if parsing failed.
      **/
     @SuppressWarnings("all")
