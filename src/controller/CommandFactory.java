@@ -1,9 +1,9 @@
 package controller;
 import command.*;
 
-@SuppressWarnings("all")
+
 public class CommandFactory{
-    public static Command createCommand(String cmdString) throws IllegalArgumentException{
+    public static Command createCommand(String cmdString) throws ClassNotFoundException {
         try{
             //把cmdString首字母改成大寫
             cmdString = "command." + cmdString.substring(0,1).toUpperCase() + cmdString.substring(1);
@@ -15,12 +15,10 @@ public class CommandFactory{
             //判斷是否為Command接口的實現類
             if (cmdInstance instanceof Command) {
                 return (Command) cmdInstance;
-            } else {
-                throw new IllegalArgumentException("Command not found");
             }
-        }catch(Exception e){
-            e.printStackTrace();
-            return null;
+        }catch(Exception x){
+            throw new ClassNotFoundException("Command not found");
         }
+        return null;
     }
 }

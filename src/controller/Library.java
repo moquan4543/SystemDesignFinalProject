@@ -47,9 +47,14 @@ public class Library {
         //仔細觀察可以發現除了addBook外的指令都需引數
         //但為了符合開閉原則，即使是addBook仍然傳遞引數(空字串)
         //呼叫CommandFactory構造指令類
-        Command cmd = CommandFactory.createCommand(instruction);
-        invoker.setCmd(cmd);
-        invoker.invoke(arg);
+        try{
+            Command cmd = CommandFactory.createCommand(instruction);
+            invoker.setCmd(cmd);
+            invoker.invoke(arg);
+        }catch(ClassNotFoundException e){
+            System.out.println(e.getMessage());
+            return -1;
+        }
         return 0;
     }
 }
