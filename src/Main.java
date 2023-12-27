@@ -1,13 +1,20 @@
-import controller.Library;
-import object.*;
 import command.AddBook;
 import command.Checkout;
+import command.Command;
 import command.Return;
 import command.FindChecked;
 import command.FindBorrower;
 import command.ListAuthor;
 import command.ListSubject;
 import command.RemoveBook;
+import controller.Library;
+import controller.CommandFactory;
+import exception.BookCheckoutException;
+import exception.PermissionDeniedException;
+import exception.ExceedLimitationException;
+import object.Book;
+import object.priority;
+import object.User;
 import java.io.*;
 /**
  * Consider a small library system with the following transactions:
@@ -50,25 +57,19 @@ public class Main{
     }
 
     public static void main(String[] args) throws IOException{
-        //獲取單例模式的Library
         Library lib = Library.getInstance();
 
-        //下面這一段方便我測試用的，不影響到時候demo
-        //加這一段我才能一鍵執行
-        //到時候demo直接將這一段刪掉，然後把new File裡的參數改成args[0]就好
         String filePath;
         if(args.length == 0){
             filePath = "sampleInput";
         }else{
             filePath = args[0];
         }
-        //刪到這裡
 
-        //處理初始化
         File input = new File(filePath);
         BufferedReader br = new BufferedReader(new FileReader(input));
         Init(lib,br);
-        //進入主迴圈
+
         String line;
         while((line = br.readLine()) != null){
             lib.processTransaction(line,br);

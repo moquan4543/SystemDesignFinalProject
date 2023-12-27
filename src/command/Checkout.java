@@ -6,6 +6,9 @@ import controller.Library;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.lang.Object;
+import java.util.stream.Collectors;
+
 @SuppressWarnings("all")
 public class Checkout implements Command{
     public Checkout() {}
@@ -18,7 +21,7 @@ public class Checkout implements Command{
                 throw new PermissionDeniedException("Borrower can not check out the books ");
             }
             User borrower = lib.users.get(arg);
-            List<Integer> borrowedBooks = Arrays.stream(lib.br.readLine().split("\\s+")).map(Integer::parseInt).toList();
+            List<Integer> borrowedBooks = Arrays.stream(lib.br.readLine().split("\\s+")).map(Integer::parseInt).collect(Collectors.toList());
             if(borrowedBooks.size() > borrower.getPredefinedBorrowBookNumber()){
                 throw new ExceedLimitationException("Can not check out since the number of books exceed the limitation of user can check-out");
             }

@@ -16,7 +16,7 @@ public class FindChecked implements Command{
             throw new PermissionDeniedException("Borrower can not find books checked out by other users");
         }
         Stream<Book> stream = lib.books.values().stream();
-        //一樣，過濾所有被這個使用者借的書，然後印出來
+
         stream.filter(book -> user.equals(book.getBorrowedBy())).forEach(book -> System.out.println("ID: "+book.getBookID()+" Author: "+book.getBookAuthor()+" Subject: "+book.getBookSubject()));
     }
 }
