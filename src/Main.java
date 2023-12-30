@@ -30,6 +30,7 @@ import java.io.*;
  *  3. A borrower may not have more than a pre-defined number of books checked out at one time.
  *
  * */
+@SuppressWarnings("all")
 public class Main{
     public static void Init(Library lib, BufferedReader br) throws IOException{
         int numberOfBook = Integer.parseInt(br.readLine());
