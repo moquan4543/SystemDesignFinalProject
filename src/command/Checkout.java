@@ -1,4 +1,5 @@
 package command;
+import exception.BookCheckoutException;
 import exception.ExceedLimitationException;
 import exception.PermissionDeniedException;
 import object.*;
@@ -22,9 +23,14 @@ public class Checkout implements Command{
             if(borrowedBooks.size() > borrower.getPredefinedBorrowBookNumber()){
                 throw new ExceedLimitationException("Can not check out since the number of books exceed the limitation of user can check-out");
             }
-            borrowedBooks.forEach(id -> lib.books.get(id).doBorrow(borrower));
-        }
-        catch(IOException e){
+            borrowedBooks.forEach(id -> {
+                try{
+                    lib.books.get(id).doBorrow(borrower);
+                }catch(BookCheckoutException e){
+                    System.out.println(e.getMessage());
+                }
+            });
+        }catch(IOException e){
             e.printStackTrace();
         }
     }

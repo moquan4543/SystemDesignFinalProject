@@ -19,7 +19,7 @@ public class Book {
 
     public void doBorrow(User user){
         if(this.isBorrowed()){
-            throw new BookCheckoutException("Can not check out since the book is checked out");
+            throw new BookCheckoutException("Can not check out since the book " + this.bookID + " is checked out");
         }
         this.borrowed = true;
         this.borrowedBy = user;
