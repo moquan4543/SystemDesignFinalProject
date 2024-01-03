@@ -16,7 +16,7 @@ public class FindBorrower implements Command{
         Library lib = Library.getInstance();
         Integer bookID = Integer.parseInt(arg);
         Book targetBook = lib.books.get(bookID);
-        if(targetBook.getBorrowedBy().getUserName() == null){
+        if(targetBook.getBorrowedBy() == null){
             throw new NullPointerException("The book isn't checked out");
         }
         System.out.println("User: "+targetBook.getBorrowedBy().getUserName());
