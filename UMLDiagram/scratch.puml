@@ -64,7 +64,7 @@ package object{
 
 
 
-package "Command"{
+package "command"{
     interface Command<< 指令接口 >>{
         execute(invoker : User, arg : String) : void
     }
