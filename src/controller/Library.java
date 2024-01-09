@@ -34,7 +34,12 @@ public class Library {
         //透過stream的方法轉成List，構造成LinkedList
         //透過LinkedList提供的方法模擬隊列，避免索引寫死如果沒有操作數會越界的問題
         LinkedList<String> strQueue = new LinkedList<>(Arrays.stream(cmdStr.split("\\s+")).collect(Collectors.toList()));
+        String username = strQueue.getFirst();
         User invoker = users.get(strQueue.removeFirst());
+        if(invoker == null){
+            System.out.println("User "+ username+" not found");
+            return -1;
+        }
         String instruction = strQueue.removeFirst();
         String arg;
         if(strQueue.isEmpty()){
