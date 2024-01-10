@@ -14,7 +14,7 @@ public class CommandFactory{
             Object cmdInstance = cmdClass.getDeclaredConstructor().newInstance();
             //判斷是否為Command接口的實現類
             if (cmdInstance instanceof Command) {
-                return (Command) cmdInstance;
+                return new ConfirmDecorator((Command) cmdInstance);
             }
         }catch(Exception x){
             throw new ClassNotFoundException("Command not found");

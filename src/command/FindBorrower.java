@@ -1,23 +1,20 @@
 package command;
 import controller.Library;
-import exception.PermissionDeniedException;
 import object.Book;
 import object.User;
-import object.priority;
+
 @SuppressWarnings("all")
 public class FindBorrower implements Command{
-    public FindBorrower() {}
-
     @Override
     public void execute(User invoker, String arg) throws RuntimeException{
-        if(!invoker.getUserType().equals(priority.Staff)){
-            throw new PermissionDeniedException("Borrower can not find borrower");
-        }
         Library lib = Library.getInstance();
         Integer bookID = Integer.parseInt(arg);
         Book targetBook = lib.books.get(bookID);
+        if(targetBook == null){
+            throw new NullPointerException("The book "+ bookID +" does not exist.");
+        }
         if(targetBook.getBorrowedBy() == null){
-            throw new NullPointerException("The book isn't checked out");
+            throw new NullPointerException("The book " + bookID + " isn't checked out.");
         }
         System.out.println("User: "+targetBook.getBorrowedBy().getUserName());
     }

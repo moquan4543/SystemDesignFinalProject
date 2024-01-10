@@ -11,11 +11,12 @@ public class RemoveBook implements Command{
 
     @Override
     public void execute(User invoker, String arg) {
-        if(!invoker.getUserType().equals(priority.Staff)){
-            throw new PermissionDeniedException("Borrower can not remove book");
-        }
         Library lib = Library.getInstance();
         Integer bookID = Integer.parseInt(arg);
-        lib.books.remove(bookID);
+        if(lib.books.containsKey(bookID)){
+            lib.books.remove(bookID);
+        }else{
+            throw new NullPointerException("Can't not remove since book " + arg + " does not exist.");
+        }
     }
 }
