@@ -1,8 +1,6 @@
 package command;
 import controller.Library;
-import exception.PermissionDeniedException;
 import object.User;
-import object.priority;
 
 @SuppressWarnings("all")
 public class RemoveBook implements Command{
