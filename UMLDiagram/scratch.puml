@@ -188,7 +188,7 @@ Library ..> CommandFactory
 CommandFactory ..> Command
 User *-> Permission
 User ..> Command
-User -- exception
+User - exception
 ConfirmDecorator o- Command
 Command -> CommandPermissionLevel
 @enduml
