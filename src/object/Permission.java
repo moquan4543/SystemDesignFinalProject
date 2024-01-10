@@ -1,5 +1,5 @@
 package object;
 
-public enum priority {
+public enum Permission {
     Borrower,Staff
 }

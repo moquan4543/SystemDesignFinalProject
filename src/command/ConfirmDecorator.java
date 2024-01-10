@@ -2,7 +2,7 @@ package command;
 import controller.Library;
 import exception.PermissionDeniedException;
 import object.User;
-import object.priority;
+import object.Permission;
 
 public class ConfirmDecorator implements Command{
     private final Command cmd;
@@ -13,7 +13,7 @@ public class ConfirmDecorator implements Command{
         this.cmd = cmd;
     }
     private boolean isStaff(User user){
-        return user.getUserType().equals(priority.Staff);
+        return user.getUserType().equals(Permission.Staff);
     }
     private boolean hasConfirm(User invoker,String arg){
         String cmdString = cmd.getClass().getName().replace("command.","");
@@ -22,7 +22,7 @@ public class ConfirmDecorator implements Command{
             return isStaff(invoker);
         }else if(lib.commandErrorList.containsKey(cmdString+"SelfOnly")) {
             msg = lib.commandErrorList.get(cmdString + "SelfOnly");
-            return invoker.getUserType().equals(priority.Staff) || invoker.getUserName().equals(arg);
+            return invoker.getUserType().equals(Permission.Staff) || invoker.getUserName().equals(arg);
         }
         return true;
     }

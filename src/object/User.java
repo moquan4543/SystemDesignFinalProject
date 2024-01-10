@@ -4,17 +4,17 @@ import command.Command;
 @SuppressWarnings("all")
 public class User {
     private final String userName;
-    private final priority userType;
+    private final Permission userType;
     private Integer predefinedBorrowBookNumber;
     Command cmd;
 
-    public User(priority userType, String userName){
+    public User(Permission userType, String userName){
         this.userType = userType;
         this.userName = userName;
         this.predefinedBorrowBookNumber = Integer.MAX_VALUE;
     }
 
-    public User(priority userType, String userName, Integer predefinedBorrowBookNumber){
+    public User(Permission userType, String userName, Integer predefinedBorrowBookNumber){
         this.userType = userType;
         this.userName = userName;
         this.predefinedBorrowBookNumber = predefinedBorrowBookNumber;
@@ -24,7 +24,7 @@ public class User {
         return userName;
     }
 
-    public priority getUserType(){
+    public Permission getUserType(){
         return userType;
     }
 

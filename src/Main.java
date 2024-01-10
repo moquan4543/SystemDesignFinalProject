@@ -1,15 +1,6 @@
 import controller.*;
 import object.*;
-import exception.*;
-import command.Command;
-import command.AddBook;
-import command.Checkout;
-import command.Return;
-import command.FindChecked;
-import command.FindBorrower;
-import command.ListAuthor;
-import command.ListSubject;
-import command.RemoveBook;
+
 import java.io.*;
 /**
  * Consider a small library system with the following transactions:
@@ -44,9 +35,9 @@ public class Main{
             String[] strArray = br.readLine().split("\\s+");
             User currentUser;
             if(strArray[0].equals("Staff")){
-                currentUser = new User(priority.Staff,strArray[1]);
+                currentUser = new User(Permission.Staff,strArray[1]);
             }else{
-                currentUser = new User(priority.Borrower,strArray[1],Integer.parseInt(strArray[2]));
+                currentUser = new User(Permission.Borrower,strArray[1],Integer.parseInt(strArray[2]));
             }
             lib.users.put(strArray[1],currentUser);
         }
