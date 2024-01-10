@@ -8,7 +8,7 @@ import java.util.*;
 public class Library {
     public Map<String, User> users = new HashMap<>();
     public Map<Integer, Book> books = new LinkedHashMap<>();
-    public final Map<String, String> commandErrorList = new HashMap<>(Map.of(
+    public Map<String, String> commandErrorList = new HashMap<>(Map.of(
             "AddBookPermission","Borrower can not add book.",
             "CheckoutPermission","Borrower can not check out the books.",
             "FindBorrowerPermission","Borrower can not find borrower",
