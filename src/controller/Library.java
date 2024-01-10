@@ -8,14 +8,6 @@ import java.util.*;
 public class Library {
     public Map<String, User> users = new HashMap<>();
     public Map<Integer, Book> books = new LinkedHashMap<>();
-    public Map<String, String> commandErrorList = new HashMap<>(Map.of(
-            "AddBookPermission","Borrower can not add book.",
-            "CheckoutPermission","Borrower can not check out the books.",
-            "FindBorrowerPermission","Borrower can not find borrower",
-            "FindCheckedSelfOnly","Borrower can not find books checked out by other users",
-            "RemoveBookPermission","Borrower can not remove book",
-            "ReturnPermission","Borrower can not return book."
-    ));
     public BufferedReader br;
     private static final Library instance = new Library();
     private Library(){}

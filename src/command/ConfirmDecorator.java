@@ -1,5 +1,4 @@
 package command;
-import controller.Library;
 import exception.PermissionDeniedException;
 import object.User;
 import object.Permission;
@@ -7,8 +6,6 @@ import object.Permission;
 public class ConfirmDecorator implements Command{
     private final Command cmd;
     private String msg = "";
-    private final Library lib = Library.getInstance();
-
     public ConfirmDecorator(Command cmd){
         this.cmd = cmd;
     }
@@ -16,12 +13,11 @@ public class ConfirmDecorator implements Command{
         return user.getUserType().equals(Permission.Staff);
     }
     private boolean hasConfirm(User invoker,String arg){
-        String cmdString = cmd.getClass().getName().replace("command.","");
-        if(lib.commandErrorList.containsKey(cmdString+"Permission")){
-            msg = lib.commandErrorList.get(cmdString+"Permission");
+        if(cmd.getCommandPermissionLevel().equals(CommandPermissionLevel.Staff)){
+            msg = cmd.getPermissionDeniedMsg();
             return isStaff(invoker);
-        }else if(lib.commandErrorList.containsKey(cmdString+"SelfOnly")) {
-            msg = lib.commandErrorList.get(cmdString + "SelfOnly");
+        }else if(cmd.getCommandPermissionLevel().equals(CommandPermissionLevel.Self)) {
+            msg = cmd.getPermissionDeniedMsg();
             return invoker.getUserType().equals(Permission.Staff) || invoker.getUserName().equals(arg);
         }
         return true;
@@ -34,5 +30,12 @@ public class ConfirmDecorator implements Command{
             throw new PermissionDeniedException(msg);
         }
     }
-
+    @Override
+    public CommandPermissionLevel getCommandPermissionLevel() {
+        return null;
+    }
+    @Override
+    public String getPermissionDeniedMsg() {
+        return null;
+    }
 }

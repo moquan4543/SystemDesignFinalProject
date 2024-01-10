@@ -1,7 +1,6 @@
 package controller;
 import command.*;
 
-
 public class CommandFactory{
     public static Command createCommand(String cmdString) throws ClassNotFoundException {
         try{

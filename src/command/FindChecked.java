@@ -5,6 +5,9 @@ import java.util.stream.Stream;
 
 @SuppressWarnings("all")
 public class FindChecked implements Command{
+    public FindChecked(){}
+    private CommandPermissionLevel p = CommandPermissionLevel.Self;
+    private String permissionDeniedMsg = "Borrower can not find books checked out by other users";
     @Override
     public void execute(User invoker, String arg) throws RuntimeException{
         Library lib = Library.getInstance();
@@ -15,5 +18,13 @@ public class FindChecked implements Command{
         Stream<Book> stream = lib.books.values().stream();
         //一樣，過濾所有被這個使用者借的書，然後印出來
         stream.filter(book -> user.equals(book.getBorrowedBy())).forEach(book -> System.out.println("ID: "+book.getBookID()+" Author: "+book.getBookAuthor()+" Subject: "+book.getBookSubject()));
+    }
+    @Override
+    public CommandPermissionLevel getCommandPermissionLevel() {
+        return p;
+    }
+    @Override
+    public String getPermissionDeniedMsg() {
+        return permissionDeniedMsg;
     }
 }

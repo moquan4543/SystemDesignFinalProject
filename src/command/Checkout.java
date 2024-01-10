@@ -9,6 +9,9 @@ import java.util.List;
 
 @SuppressWarnings("all")
 public class Checkout implements Command{
+    public Checkout(){}
+    private CommandPermissionLevel p = CommandPermissionLevel.Staff;
+    private String permissionDeniedMsg = "Borrower can not check out the books.";
     @Override
     public void execute(User invoker, String arg) throws RuntimeException {
         Library lib = Library.getInstance();
@@ -31,5 +34,13 @@ public class Checkout implements Command{
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
+    @Override
+    public CommandPermissionLevel getCommandPermissionLevel() {
+        return p;
+    }
+    @Override
+    public String getPermissionDeniedMsg() {
+        return permissionDeniedMsg;
     }
 }
