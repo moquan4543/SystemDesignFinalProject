@@ -186,7 +186,7 @@ Library *---> Book
 Library *---> User
 Library ..> CommandFactory
 CommandFactory ..> Command
-User *-> Priority
+User *-> Permission
 User ..> Command
 User -- exception
 ConfirmDecorator o- Command
