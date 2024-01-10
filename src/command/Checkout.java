@@ -6,6 +6,7 @@ import controller.Library;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("all")
 public class Checkout implements Command{
@@ -20,7 +21,7 @@ public class Checkout implements Command{
             if(borrower == null){
                 throw new NullPointerException("Username "+ arg +" not found.");
             }
-            List<Integer> borrowedBooks = Arrays.stream(lib.br.readLine().split("\\s+")).map(Integer::parseInt).toList();
+            List<Integer> borrowedBooks = Arrays.stream(lib.br.readLine().split("\\s+")).map(Integer::parseInt).collect(Collectors.toList());
             if(borrowedBooks.size() > borrower.getPredefinedBorrowBookNumber()){
                 throw new ExceedLimitationException("Can not check out since the number of books(" + borrowedBooks.size() + ") exceed the limitation of user can check-out("+borrower.getPredefinedBorrowBookNumber()+").");
             }

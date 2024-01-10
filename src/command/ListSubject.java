@@ -13,7 +13,6 @@ public class ListSubject implements Command{
     public void execute(User invoker, String subject) {
         Library lib = Library.getInstance();
         Stream<Book> stream = lib.books.values().stream();
-        //跟ListAuthor一樣
         stream.filter(book -> book.getBookSubject().equals(subject)).forEach(book -> System.out.println("ID: "+book.getBookID()+" Author: "+book.getBookAuthor()+" Subject: "+book.getBookSubject()));
     }
     @Override
