@@ -9,6 +9,7 @@ package controller #DDDDDD{
     class Library{
         +users : HashMap<String, User>
         +books : LinkedHashMap<Integer, Book>
+        +commandErrorList : HashMap<String,String>
         {static}-instance : Library
         +br : BufferedReader
 
@@ -27,12 +28,12 @@ package controller #DDDDDD{
 }
 
 package object{
-    enum Priority{
+    enum Permission{
         Borrower,Staff
     }
     class User<<Invoker>>{
         -userName : String
-        -userType : Priority
+        -userType : Permission
         -predefinedBorrowBookNumber : Integer
         -cmd : Command
         +getUserName() : String
@@ -68,43 +69,52 @@ package "command"{
     interface Command<< 指令接口 >>{
         execute(invoker : User, arg : String) : void
     }
+    class ConfirmDecorator << Decorator >> implements Command{
+        -cmd : Command
+        -msg : String
+        -lib : Library
 
-    class addBook implements Command{
+        +isStaff(user : User) : boolean
+        +hasConfirm(invoker : User, arg : String) : boolean
+        {method}<<Override>>
+        +execute(invoker : User, arg : String) : void
+    }
+    class AddBook implements Command{
         {method}<<Override>>
         +execute(invoker : User, arg : String) : void
     }
 
-    class removeBook implements Command{
+    class RemoveBook implements Command{
         {method}<<Override>>
         +execute(invoker : User, arg : String) : void
     }
 
-    class checkout implements Command{
+    class Checkout implements Command{
         {method}<<Override>>
         +execute(invoker : User, arg : String) : void
     }
 
-    class return implements Command{
+    class Return implements Command{
         {method}<<Override>>
         +execute(invoker : User, arg : String) : void
     }
 
-    class listAuthor implements Command{
+    class ListAuthor implements Command{
         {method}<<Override>>
         +execute(invoker : User, arg : String) : void
     }
 
-    class listSubject implements Command{
+    class ListSubject implements Command{
         {method}<<Override>>
         +execute(invoker : User, arg : String) : void
     }
 
-    class findChecked implements Command{
+    class FindChecked implements Command{
         {method}<<Override>>
         +execute(invoker : User, arg : String) : void
     }
 
-    class findBorrower implements Command{
+    class FindBorrower implements Command{
         {method}<<Override>>
         +execute(invoker : User, arg : String) : void
     }
@@ -135,4 +145,5 @@ CommandFactory ..> Command
 User *-> Priority
 User ..> Command
 User -- exception
+ConfirmDecorator o- Command
 @enduml
