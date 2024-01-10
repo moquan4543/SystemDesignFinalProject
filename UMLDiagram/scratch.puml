@@ -72,51 +72,95 @@ package "command"{
     class ConfirmDecorator << Decorator >> implements Command{
         -cmd : Command
         -msg : String
-        -lib : Library
 
         +isStaff(user : User) : boolean
         +hasConfirm(invoker : User, arg : String) : boolean
         {method}<<Override>>
         +execute(invoker : User, arg : String) : void
+        +getCommandPermissionLevel() : CommandPermissionLevel;
+        +getPermissionDeniedMsg() : String
+    }
+    enum CommandPermissionLevel{
+        Staff,Self,Borrower
     }
     class AddBook implements Command{
+        p : CommandPermissionLevel
+        permissionDeniedMsg : String
+
         {method}<<Override>>
         +execute(invoker : User, arg : String) : void
+        +getCommandPermissionLevel() : CommandPermissionLevel;
+        +getPermissionDeniedMsg() : String
     }
 
     class RemoveBook implements Command{
+        p : CommandPermissionLevel
+        permissionDeniedMsg : String
+
         {method}<<Override>>
         +execute(invoker : User, arg : String) : void
+        +getCommandPermissionLevel() : CommandPermissionLevel;
+        +getPermissionDeniedMsg() : String
     }
 
     class Checkout implements Command{
+        p : CommandPermissionLevel
+        permissionDeniedMsg : String
+
         {method}<<Override>>
         +execute(invoker : User, arg : String) : void
+        +getCommandPermissionLevel() : CommandPermissionLevel;
+        +getPermissionDeniedMsg() : String
     }
 
     class Return implements Command{
+        p : CommandPermissionLevel
+        permissionDeniedMsg : String
+
         {method}<<Override>>
         +execute(invoker : User, arg : String) : void
+        +getCommandPermissionLevel() : CommandPermissionLevel;
+        +getPermissionDeniedMsg() : String
     }
 
     class ListAuthor implements Command{
+        p : CommandPermissionLevel
+        permissionDeniedMsg : String
+
         {method}<<Override>>
         +execute(invoker : User, arg : String) : void
+        +getCommandPermissionLevel() : CommandPermissionLevel;
+        +getPermissionDeniedMsg() : String
     }
 
     class ListSubject implements Command{
+        p : CommandPermissionLevel
+        permissionDeniedMsg : String
+
         {method}<<Override>>
         +execute(invoker : User, arg : String) : void
+        +getCommandPermissionLevel() : CommandPermissionLevel;
+        +getPermissionDeniedMsg() : String
     }
 
     class FindChecked implements Command{
+        p : CommandPermissionLevel
+        permissionDeniedMsg : String
+
         {method}<<Override>>
         +execute(invoker : User, arg : String) : void
+        +getCommandPermissionLevel() : CommandPermissionLevel;
+        +getPermissionDeniedMsg() : String
     }
 
     class FindBorrower implements Command{
+        p : CommandPermissionLevel
+        permissionDeniedMsg : String
+
         {method}<<Override>>
         +execute(invoker : User, arg : String) : void
+        +getCommandPermissionLevel() : CommandPermissionLevel;
+        +getPermissionDeniedMsg() : String
     }
 }
 
@@ -146,4 +190,5 @@ User *-> Priority
 User ..> Command
 User -- exception
 ConfirmDecorator o- Command
+Command -> CommandPermissionLevel
 @enduml
