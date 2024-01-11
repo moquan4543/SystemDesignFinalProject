@@ -8,6 +8,7 @@ import java.util.*;
 public class Library {
     public Map<String, User> users = new HashMap<>();
     public Map<Integer, Book> books = new LinkedHashMap<>();
+    public Integer bookID = 0;
     public BufferedReader br;
     private static final Library instance = new Library();
     private Library(){}
