@@ -15,7 +15,7 @@ public class AddBook implements Command {
         Library lib = Library.getInstance();
         try{
             String[] addBook = lib.br.readLine().split("\\s+");
-            Integer addBookID = lib.books.size();
+            Integer addBookID = lib.BookID++;
             lib.books.put(addBookID,new Book(addBookID,addBook[0],addBook[1]));
         }catch(IOException e){
             e.printStackTrace();
