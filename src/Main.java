@@ -35,6 +35,7 @@ import java.io.*;
 public class Main{
     public static void Init(Library lib, BufferedReader br) throws IOException{
         int numberOfBook = Integer.parseInt(br.readLine());
+        lib.bookID = numberOfBook-1;
         for(int i = 0; i < numberOfBook;++i){
             String[] strArray = br.readLine().split("\\s+");
             Book currentBook = new Book(i,strArray[0],strArray[1]);
