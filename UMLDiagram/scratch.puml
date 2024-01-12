@@ -67,7 +67,9 @@ package object{
 
 package "command"{
     interface Command<< 指令接口 >>{
-        execute(invoker : User, arg : String) : void
+        +execute(invoker : User, arg : String) : void
+        +getCommandPermissionLevel() : CommandPermissionLevel
+        +getPermissionDeniedMsg : String
     }
     class ConfirmDecorator << Decorator >> implements Command{
         -cmd : Command
